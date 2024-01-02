@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool: 
-  name: ubuntu-latest
+  name: Azure Pipelines
 
 variables:
   buildConfiguration: 'Release'
