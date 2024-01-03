@@ -1,15 +1,15 @@
 trigger:
   - '*'
   
-  pool:
-  - vmImage: ubuntu-latest
+pool:
+  vmImage: ubuntu-latest
   
-  variables:
-  - buildConfiguration: 'Release'
-    wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
-    dotnetSdkVersion: '6.x'
+variables:
+  buildConfiguration: 'Release'
+  wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
+  dotnetSdkVersion: '8.x'
   
-  steps:
+steps:
   - task: UseDotNet@2
     displayName: 'Use .NET SDK $(dotnetSdkVersion)'
     inputs:
@@ -55,17 +55,18 @@ trigger:
       arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
       zipAfterPublish: true
   
-- template: templates/build.yml
-  parameters:
-    buildConfiguration: 'Debug'
+  - template: templates/build.yml
+    parameters:
+      buildConfiguration: 'Debug'
 
-- template: templates/build.yml
-  parameters:
-    buildConfiguration: 'Release'
+  - template: templates/build.yml
+    parameters:
+      buildConfiguration: 'Release'
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
-  condition: succeeded()
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
+    condition: succeeded()
+
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: drop'
     condition: succeeded()
